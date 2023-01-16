@@ -4,6 +4,7 @@ import { ethers } from "ethers"
 import { conAddress, abi } from "./constants/index"
 import FileUpload from "./components/FileUpload"
 import Modal from "./components/Modal"
+import Display from "./components/Display"
 
 function App() {
   const [account, setAccount] = useState("")
@@ -38,7 +39,7 @@ function App() {
     }
     provider && loadProvider()
   }, [])
-console.log(contract)
+  console.log(contract)
   return (
     <div className="App">
       <h1 style={{ color: "white" }}>IPFS Drive</h1>
@@ -49,7 +50,8 @@ console.log(contract)
         Account : {account ? account : "Please connect metamask"}
       </p>
       <FileUpload account={account} contract={contract} provider={provider} />
-      <Modal />
+      <Display account={account} contract={contract} />
+      {/* <Modal /> */}
     </div>
   )
 }
