@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import axios from "axios"
 import "./FileUpload.css"
-
-const FileUpload = ({ account, state }) => {
+const FileUpload = ({ contract, account, provider }) => {
   const [file, setFile] = useState(null)
-  const [fileName, setFileName] = useState("No Image Selected")
-
+  const [fileName, setFileName] = useState("No image selected")
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (file) {
@@ -18,36 +16,34 @@ const FileUpload = ({ account, state }) => {
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `44f3732ce42f24350a30`,
-            pinata_secret_api_key: `fadbd65e5bc9b24b0fbdb255ccc9363ac5f0365eb65399e7f57e2d9276c02bf3`,
+            pinata_api_key: `bf67408a3ba2048e6d66`,
+            pinata_secret_api_key: `1e64d27430b885f56ee2c5ffbc61fe1adbd644a13c26d3627fe46811bc2f02fd`,
             "Content-Type": "multipart/form-data",
           },
         })
-
-        const imgHash = `ipfs://${resFile.data.IpfsHash}`
-
-        await state.contract.add(account, imgHash)
-        alert("Image uploaded sucessfully !!!")
-        setFileName("No Image selected")
-        setFile(null)
-      } catch (error) {
-        alert("Unable to upload file to pinata")
-        console.error(error)
+        const ImgHash = `ipfs://${resFile.data.IpfsHash}`
+        //const signer = contract.connect(provider.getSigner());
+        const signer = contract.connect(provider.getSigner())
+        signer.add(account, ImgHash)
+      } catch (e) {
+        alert("Unable to upload image to Pinata")
       }
     }
+    alert("Successfully Image Uploaded")
+    setFileName("No image selected")
+    setFile(null)
   }
-
-  const retriveFile = (e) => {
-    const data = e.target.files[0]
+  const retrieveFile = (e) => {
+    const data = e.target.files[0] //files array of files object
+    // console.log(data);
     const reader = new window.FileReader()
     reader.readAsArrayBuffer(data)
     reader.onloadend = () => {
-      setFile(data)
+      setFile(e.target.files[0])
     }
-    setFileName(data.name)
+    setFileName(e.target.files[0].name)
     e.preventDefault()
   }
-
   return (
     <div className="top">
       <form className="form" onSubmit={handleSubmit}>
@@ -59,15 +55,14 @@ const FileUpload = ({ account, state }) => {
           type="file"
           id="file-upload"
           name="data"
-          onChange={retriveFile}
+          onChange={retrieveFile}
         />
-        <span className="textArea"> Image : {fileName}</span>
-        <button type="submit" className="upload">
+        <span className="textArea">Image: {fileName}</span>
+        <button type="submit" className="upload" disabled={!file}>
           Upload File
         </button>
       </form>
     </div>
   )
 }
-
 export default FileUpload
