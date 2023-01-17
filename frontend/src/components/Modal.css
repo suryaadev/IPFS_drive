@@ -32,6 +32,9 @@
     display: flex;
     justify-content: flex-end;
   }
+  #revokeBtn{
+    background-color: grey
+  }
   
   .titleCloseBtn button {
     background-color: transparent;

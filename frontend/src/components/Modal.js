@@ -1,27 +1,34 @@
-import { useEffect } from "react";
-import "./Modal.css";
+import { useEffect } from "react"
+import "./Modal.css"
 const Modal = ({ setModalOpen, contract }) => {
   const sharing = async () => {
-    const address = document.querySelector(".address").value;
-    await contract.allow(address);
-    setModalOpen(false);
-  };
+    const address = document.querySelector(".address").value
+    await contract.allow(address)
+    setModalOpen(false)
+  }
+  const revokeAccess = async () => {
+    const address = document.querySelector(".address").value
+    await contract.disallow(address)
+    alert(`access removed for ${address}`)
+  }
   useEffect(() => {
     const accessList = async () => {
-      const addressList = await contract.shareAccess();
-      let select = document.querySelector("#selectNumber");
-      const options = addressList;
+      const addressList = await contract.shareAccess()
+      let select = document.querySelector("#selectNumber")
+      const options = addressList
 
       for (let i = 0; i < options.length; i++) {
-        let opt = options[i];
-        let e1 = document.createElement("option");
-        e1.textContent = opt;
-        e1.value = opt;
-        select.appendChild(e1);
+        if (options[i][1]) {
+          let opt = options[i][0]
+          let e1 = document.createElement("option")
+          e1.textContent = opt
+          e1.value = opt
+          select.appendChild(e1)
+        }
       }
-    };
-    contract && accessList();
-  }, [contract]);
+    }
+    contract && accessList()
+  }, [contract])
   return (
     <>
       <div className="modalBackground">
@@ -42,17 +49,18 @@ const Modal = ({ setModalOpen, contract }) => {
           <div className="footer">
             <button
               onClick={() => {
-                setModalOpen(false);
+                setModalOpen(false)
               }}
               id="cancelBtn"
             >
               Cancel
             </button>
+            <button onClick={revokeAccess} id="revokeBtn">Revoke</button>
             <button onClick={() => sharing()}>Share</button>
           </div>
         </div>
       </div>
     </>
-  );
-};
-export default Modal;
+  )
+}
+export default Modal
