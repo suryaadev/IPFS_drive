@@ -12,6 +12,11 @@ module.exports = {
             chainId: 5,
             accounts: [PRIVATE_KEY],
         },
+        etherscan: {
+            apiKey: {
+                goerli: "IP3FRBY54DSVCVW1NNJNEK8QQK9S5A8GS3",
+            },
+        },
     },
 }
 // 0x70A3cd82bCec9f610ed9F858bAf821dEdE8de5F3

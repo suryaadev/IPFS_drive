@@ -41,18 +41,25 @@ function App() {
   }, [])
   console.log(contract)
   return (
-    <div className="App">
-      <h1 style={{ color: "white" }}>IPFS Drive</h1>
-      <div className="bg"></div>
-      <div className="bg bg2"></div>
-      <div className="bg bg3"></div>
-      <p style={{ color: "white" }}>
-        Account : {account ? account : "Please connect metamask"}
-      </p>
-      <FileUpload account={account} contract={contract} provider={provider} />
-      <Display account={account} contract={contract} />
-      {/* <Modal /> */}
-    </div>
+    <>
+      {!modalOpen && (
+        <button className="share" style={{position:"fixed", zIndex:"revert"}} onClick={()=>setModalOpen(true)}>
+          Share
+        </button>
+      )}{" "}
+      {modalOpen && <Modal setModalOpen={setModalOpen} contract={contract} />}
+      <div className="App">
+        <h1 style={{ color: "white" }}>IPFS Drive</h1>
+        <div className="bg"></div>
+        <div className="bg bg2"></div>
+        <div className="bg bg3"></div>
+        <p style={{ color: "white" }}>
+          Account : {account ? account : "Please connect metamask"}
+        </p>
+        <FileUpload account={account} contract={contract} provider={provider} />
+        <Display account={account} contract={contract} />
+      </div>
+    </>
   )
 }
 
