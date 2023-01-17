@@ -24,7 +24,7 @@ const Display = ({ contract, account }) => {
 
         const images = str_array.map((img, i) => {
           return (
-            <a href={img} key={i} target="_blank">
+            <a href={img} key={i} target="_blank" rel="noreferrer">
               <img
                 key={i}
                 src={`https://gateway.pinata.cloud/ipfs/${img.substring(6)}`}
