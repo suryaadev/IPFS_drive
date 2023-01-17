@@ -43,7 +43,7 @@ const Display = ({ contract, account }) => {
   return (
     <>
       <div className="img-list">{data}</div>
-      <input type="text" placeholder="Enter Address" className="address" />
+      <input type="text" placeholder="Enter different Address" className="address" />
       <button className="center button" onClick={getData}>
         See Img
       </button>
